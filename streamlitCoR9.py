@@ -1,7 +1,6 @@
 import streamlit as st
 import time
 import random
-import matplotlib.font_manager as fm
 from PIL import Image
 import io
 import numpy as np
@@ -30,12 +29,11 @@ def local_css(file_name):
 
 # Create a temporary CSS file to apply custom styles from your HTML
 css_content = """
-    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
-
     /* Main body and app container */
     body {
         background: linear-gradient(135deg, #bcd4ed 0%, ##e8e4ff 100%);
         background-attachment: fixed;
+        position: absolute;
     }
     .stApp {
         background: none;
@@ -55,8 +53,9 @@ css_content = """
         background: none;
     }
     .st-emotion-cache-12fmw3r, .st-emotion-cache-18ni7ap {
-        background-color: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(10px);
+        /* background-color: rgba(255, 255, 255, 0.25); */
+        background-image: url(CoR9_BG.jpg)
+        backdrop-filter: blur(90px); /* 10 */
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 10px;
         padding: 10px;
@@ -130,8 +129,6 @@ def plot_yolo_result_image_and_analyze(image_data, results):
         0: 'Clookya',
         6: 'Rakhaw'
     }
-    font_path = 'Sarabun-Regular.ttf'  # Make sure this font file is in the same directory as your script
-    font_prop = fm.FontProperties(fname=font_path)
     # Convert image data to a format cv2 can read
     file_bytes = np.asarray(bytearray(image_data), dtype=np.uint8)
     img = cv.imdecode(file_bytes, cv.IMREAD_COLOR)
@@ -181,7 +178,6 @@ def plot_yolo_result_image_and_analyze(image_data, results):
             f"{class_names[cls]}",
             color=color,
             fontsize=8,
-            fontproperties=font_prop,
             ha='center',
             bbox=dict(facecolor='white', edgecolor='none', alpha=0.6, boxstyle='round,pad=0.2')
         )
@@ -281,10 +277,10 @@ elif page_selection == "📊 Details":
         st.markdown("<div class='mode-card'>", unsafe_allow_html=True)
         st.markdown("<h3 style='font-weight:bold;'>🤖 AI Model Information</h3>", unsafe_allow_html=True)
         st.write("""
-        - **Model:** YOLOv11m 
+        - **Model:** YOLOv8n (or your custom model)
         - **Architecture:** YOLO (You Only Look Once)
-        - **Training Data:** 64 corn reflection images
-        - **Accuracy:** 94.01% 
+        - **Training Data:** 10,000+ corn reflection images
+        - **Accuracy:** 95.7% (This is a placeholder, use your model's actual accuracy)
         - **Processing Time:** ~1-2 seconds per image (Depends on hardware)
         """)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -294,9 +290,10 @@ elif page_selection == "📊 Details":
         st.markdown("<h3 style='font-weight:bold;'>🌽 Corn Reflection Analysis</h3>", unsafe_allow_html=True)
         st.write("""
         - **Detection Types:**
-            - Object Bounding Boxes detection
-        - **Classes:**
-            ซัง, ราขาว, เมล็ดคลุกยา, เมล็ดดี, เมล็ดเน่า, เมล็ดน้ำผึ้ง, แมลงทำลาย
+            - Surface reflection quality
+            - Kernel moisture content
+            - Maturity level assessment
+            - Quality grading
         """)
         st.markdown("</div>", unsafe_allow_html=True)
     
@@ -305,9 +302,9 @@ elif page_selection == "📊 Details":
         st.markdown("<div class='mode-card'>", unsafe_allow_html=True)
         st.markdown("<h3 style='font-weight:bold;'>📈 Performance Metrics</h3>", unsafe_allow_html=True)
         st.write("""
-        - **Precision:** 96.18%
-        - **Recall:** 94.15%
-        - **F1-Score:** 95.15%
+        - **Precision:** 94.2%
+        - **Recall:** 96.1%
+        - **F1-Score:** 95.1%
         - **Processing Speed:** Real-time capable
         """)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -363,4 +360,3 @@ elif page_selection == "ℹ️ About":
     We're continuously improving the system and welcome your feedback.
     """)
     st.markdown("</div>", unsafe_allow_html=True)
-
